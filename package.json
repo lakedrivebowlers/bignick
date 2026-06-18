@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "contentful-management": "^10.46.4",
+    "p-limit": "^3.1.0"
+  }
+}

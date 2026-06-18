@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Property Detail</title>
+
+  <!-- Contentful SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/contentful@latest/dist/contentful.browser.min.js"></script>
+
+  <!-- Your App JS -->
+  <script defer src="app.js"></script>
+
+</head>
+
+<body>
+
+  <!-- THIS ID IS CRITICAL -->
+  <div id="property-detail">
+
+    <h1 id="p-title">
+      Loading title...
+    </h1>
+
+    <img
+      id="p-main-image"
+      width="600"
+      alt="Property Image"
+    >
+
+    <h2 id="p-price">
+      Loading price...
+    </h2>
+
+    <p id="p-address"></p>
+
+    <p id="p-location"></p>
+
+    <p>
+      Beds:
+      <span id="p-beds"></span>
+    </p>
+
+    <p>
+      Baths:
+      <span id="p-baths"></span>
+    </p>
+
+    <p>
+      Sqft:
+      <span id="p-sqft"></span>
+    </p>
+
+    <p>
+      Type:
+      <span id="p-type"></span>
+    </p>
+
+    <div id="p-description"></div>
+
+    <h3>Gallery</h3>
+
+    <div class="gallery-grid" id="p-gallery"></div>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Executive Portfolio Console | Big Nick Realty</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Modern Premium Corporate Stylesheet Reset */
+        body { 
+            background-color: #f1f5f9; 
+            font-family: 'Inter', system-ui, sans-serif; 
+            margin: 0; 
+            color: #1e293b; 
+            -webkit-font-smoothing: antialiased;
+        }
+        .hidden { display: none !important; }
+        
+        /* Top Enterprise Navigation Bar */
+        .top-navbar {
+            background-color: #0f172a;
+            color: #ffffff;
+            padding: 16px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .nav-brand { display: flex; align-items: center; gap: 8px; font-size: 15px; text-transform: uppercase; }
+        .nav-actions { display: flex; align-items: center; gap: 15px; }
+        .nav-btn-ai { 
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white; border: none; padding: 10px 20px; border-radius: 6px; 
+            font-weight: 600; cursor: pointer; transition: 0.2s; box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+        }
+        .nav-btn-ai:hover { transform: translateY(-1px); box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3); }
+
+        .dashboard-container { padding: 30px 40px; max-width: 1600px; margin: 0 auto; }
+        
+        /* Restricted Banner */
+        .warning-banner { 
+            background: #fffbeb; border-left: 6px solid #f59e0b; 
+            color: #92400e; padding: 18px 24px; margin-bottom: 30px; border-radius: 8px; 
+            font-weight: 500; font-size: 15px; box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.05);
+            line-height: 1.5;
+        }
+
+        /* Welcome Row */
+        .welcome-row { 
+            display: flex; justify-content: space-between; align-items: center; 
+            margin-bottom: 30px; border-bottom: 2px solid #e2e8f0; padding-bottom: 20px;
+        }
+        .welcome-row h1 { margin: 0; font-size: 28px; color: #0f172a; font-weight: 800; letter-spacing: -0.5px; }
+        .welcome-row .btn-logout {
+            background: #e2e8f0; color: #475569; border: none; padding: 10px 20px;
+            border-radius: 6px; font-weight: 700; cursor: pointer; transition: 0.2s;
+        }
+        .welcome-row .btn-logout:hover { background: #cbd5e1; color: #0f172a; }
+        
+        /* Vibrant Header & Big Shot Hero */
+        .dash-header { 
+            display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; 
+            background: #ffffff; padding: 30px 40px; border-radius: 16px; 
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.02); border: 1px solid #e2e8f0;
+        }
+        .hero-metric h2 { font-size: 15px; color: #64748b; text-transform: uppercase; margin: 0 0 8px 0; letter-spacing: 1px; font-weight: 600;}
+        .hero-metric .big-number { 
+            font-size: 48px; font-weight: 800; background: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -2px; 
+        }
+        .hero-metric .trend { 
+            font-size: 18px; color: #10b981; font-weight: 700; margin-left: 12px; padding: 4px 10px; 
+            background: #dcfce7; border-radius: 20px; -webkit-text-fill-color: #10b981; vertical-align: middle;
+        }
+        
+        /* Layout */
+        .grid-layout { display: grid; grid-template-columns: 2.2fr 1fr; gap: 30px; margin-bottom: 30px; }
+        .metrics-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 30px; }
+        .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        
+        /* Panels */
+        .panel { 
+            background: #ffffff; padding: 30px; border-radius: 16px; 
+            box-shadow: 0 10px 25px -5px rgba(0,0,0,0.02); margin-bottom: 30px; border: 1px solid #e2e8f0; 
+        }
+        .panel h3 { 
+            margin-top: 0; font-size: 18px; color: #0f172a; border-bottom: 2px solid #f1f5f9; 
+            padding-bottom: 15px; font-weight: 700; letter-spacing: -0.5px; 
+        }
+        
+        /* Metric Cards */
+        .metric-card { 
+            background: #fff; padding: 24px; border-radius: 16px; border: 1px solid #e2e8f0; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); position: relative; overflow: hidden; transition: 0.2s;
+        }
+        .metric-card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); }
+        .metric-card::before { content: ''; position: absolute; top: 0; left: 0; width: 6px; height: 100%; background: #3b82f6; }
+        .metric-card.success::before { background: #10b981; }
+        .metric-card.warning::before { background: #f59e0b; }
+        .metric-card.purple::before { background: #8b5cf6; }
+        .metric-card h4 { margin: 0 0 12px 0; font-size: 13px; color: #64748b; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px;}
+        .metric-card .value { font-size: 32px; font-weight: 800; color: #0f172a; letter-spacing: -1px;}
+        
+        /* Forms & Inputs */
+        .lead-form label { display: block; margin-top: 18px; font-size: 13px; color: #475569; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;}
+        .lead-form input, .lead-form select, .lead-form textarea { 
+            width: 100%; padding: 14px; margin-top: 8px; border: 1px solid #cbd5e1; 
+            border-radius: 8px; box-sizing: border-box; background: #f8fafc; font-family: inherit; font-size: 14px; transition: 0.2s;
+        }
+        .lead-form input:focus, .lead-form select:focus, .lead-form textarea:focus { border-color: #0f172a; outline: none; }
+        .btn-submit { 
+            margin-top: 24px; background: #0f172a; color: white; border: none; padding: 14px; 
+            border-radius: 8px; cursor: pointer; width: 100%; font-weight: 600; font-size: 15px; transition: 0.2s;
+        }
+        .btn-submit:hover { background: #1e293b; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        
+        /* Tables */
+        .data-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 10px; font-size: 14px; }
+        .data-table th { 
+            background: #f8fafc; color: #475569; font-weight: 600; text-transform: uppercase; 
+            font-size: 12px; padding: 16px; text-align: left; letter-spacing: 0.5px; border-bottom: 2px solid #e2e8f0;
+        }
+        .data-table td { border-bottom: 1px solid #f1f5f9; padding: 16px; color: #334155; vertical-align: middle;}
+        
+        /* Tags - Strict Operational Statuses Only */
+        .status-tag { padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; display: inline-block; text-align: center; text-transform: uppercase; letter-spacing: 0.5px;}
+        .status-pending { background: #fef3c7; color: #b45309; }
+        .status-in-review { background: #e0e7ff; color: #3730a3; }
+        .status-escalated { background: #fee2e2; color: #991b1b; }
+        .status-closed { background: #f1f5f9; color: #475569; }
+
+        /* Chart Wrappers */
+        .chart-container { position: relative; height: 250px; width: 100%; }
+    </style>
+</head>
+<body>
+
+    <div class="top-navbar">
+        <div class="nav-brand">Big Nick Realty - Account OPs</div>
+        <div class="nav-actions">
+            <button class="nav-btn-ai">✨ Analyze with AI</button>
+        </div>
+    </div>
+
+    <div id="dashboard-screen" class="dashboard-container">
+        
+        <div class="warning-banner">
+            <strong>RESTRICTED VIEW:</strong> You are signed in as Personal Assistant to "Eric Gallardo" (Portfolio Manager — North America). Your access is LIMITED to basic tools and read-only summaries. Certain tools may be hidden or require elevated permissions.
+        </div>
+
+        <div class="welcome-row">
+            <h1>Welcome to the Command Center</h1>
+            <button class="btn-logout" id="logout-btn">Secure Sign Out</button>
+        </div>
+
+        <div class="dash-header">
+            <div class="hero-metric">
+                <h2>Overall Lifetime Value (<span id="ltv-name">J. Sterling</span>)</h2>
+                <div class="big-number">$66.3M <span class="trend">▲ 8.4% YTD</span></div>
+            </div>
+        </div>
+
+        <div class="metrics-row">
+            <div class="metric-card success">
+                <h4>Revenue Generated (YTD)</h4>
+                <div class="value">$14.2M</div>
+            </div>
+            <div class="metric-card purple">
+                <h4>Deals Closed (YTD)</h4>
+                <div class="value">24</div>
+            </div>
+            <div class="metric-card warning">
+                <h4>Active Negotiations</h4>
+                <div class="value">7</div>
+            </div>
+            <div class="metric-card">
+                <h4>Avg Deal Size</h4>
+                <div class="value">$3.8M</div>
+            </div>
+        </div>
+
+        <div class="grid-layout">
+            <div>
+                <div class="panel">
+                    <h3>Portfolio Analytics</h3>
+                    <div class="chart-grid">
+                        <div class="chart-container"><canvas id="salesChart"></canvas></div>
+                        <div class="chart-container"><canvas id="conversionChart"></canvas></div>
+                        <div class="chart-container"><canvas id="pieChart"></canvas></div>
+                        <div class="chart-container"><canvas id="barChart"></canvas></div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h3>Client Manifest & Showing Log</h3>
+                    <table class="data-table">
+                        <thead><tr><th>Client Name</th><th>Property ZPID</th><th>Status</th><th>Field Notes</th></tr></thead>
+                        <tbody id="leads-rows">
+                            <tr>
+                                <td>The Harrison Trust</td>
+                                <td>Z-19272887</td>
+                                <td><span class="status-tag status-pending">Pending</span></td>
+                                <td>Client toured property today. Preparing documents.</td>
+                            </tr>
+                            <tr>
+                                <td>Avalon Partners</td>
+                                <td>Z-88371922</td>
+                                <td><span class="status-tag status-in-review">In Review</span></td>
+                                <td>Counter-offer submitted. Waiting on seller.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div>
+                <div class="panel">
+                    <h3>Submit Showing / Offer Log</h3>
+                    <div class="lead-form">
+                        <label>Client Name</label>
+                        <input type="text" id="lead-name" placeholder="E.g., The Harrison Trust">
+                        
+                        <label>Property ZPID</label>
+                        <input type="text" id="lead-zpid" placeholder="19272887">
+                        
+                        <label>Current Status</label>
+                        <select id="lead-status">
+                            <option value="pending">Pending</option>
+                            <option value="in review">In Review</option>
+                            <option value="escalated">Escalated</option>
+                            <option value="closed">Closed</option>
+                        </select>
+                        
+                        <label>Deal Notes / Showing Feedback</label>
+                        <textarea id="lead-notes" rows="4" placeholder="Client toured property today. Will submit LOI by Friday..."></textarea>
+                        
+                        <button class="btn-submit" id="submit-lead-btn">Log to System</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const chartOptions = { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } } };
+
+            // 1. Sales Line Chart
+            new Chart(document.getElementById('salesChart').getContext('2d'), {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{ label: 'Sales Volume ($M)', data: [2.1, 3.4, 2.8, 5.1, 4.2, 6.8], borderColor: '#3b82f6', tension: 0.4, fill: true, backgroundColor: 'rgba(59, 130, 246, 0.1)' }]
+                }, options: chartOptions
+            });
+
+            // 2. Conversion Bar Chart
+            new Chart(document.getElementById('conversionChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Showings', 'Offers', 'Escrow', 'Closed'],
+                    datasets: [{ label: 'Pipeline Conversion', data: [45, 18, 12, 7], backgroundColor: '#10b981' }]
+                }, options: chartOptions
+            });
+
+            // 3. Property Types Pie Chart
+            new Chart(document.getElementById('pieChart').getContext('2d'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['Estates', 'Condos', 'Commercial', 'Land'],
+                    datasets: [{ data: [40, 25, 20, 15], backgroundColor: ['#0f172a', '#3b82f6', '#f59e0b', '#ef4444'] }]
+                }, options: chartOptions
+            });
+
+            // 4. Regional Distribution Bar Chart
+            new Chart(document.getElementById('barChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: ['Beverly Hills', 'Bel Air', 'Malibu', 'Santa Monica'],
+                    datasets: [{ label: 'Active Listings', data: [14, 8, 11, 19], backgroundColor: '#8b5cf6' }]
+                }, options: chartOptions
+            });
+        });
+    </script>
+</body>
+</html>

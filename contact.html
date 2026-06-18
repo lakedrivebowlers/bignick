@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Contact Us | BigNickel Realty</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+
+    <nav>
+
+        <a href="index.html">Home</a>
+
+        <a href="about.html">About</a>
+
+        <a href="team.html">Team</a>
+
+        <a href="services.html">Services</a>
+
+        <a href="testimonials.html">Testimonials</a>
+
+        <a href="listings.html">Listings</a>
+
+        <a href="contact.html" class="active-nav">Contact</a>
+
+    </nav>
+
+
+    <section class="about-hero"
+        style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1423666639041-f56000c27a9a?q=80&w=1800&auto=format&fit=crop');">
+
+        <div class="about-hero-overlay">
+
+            <div class="about-hero-content">
+
+                <p class="hero-subtitle">GET IN TOUCH</p>
+
+                <h1>How Can We Help You?</h1>
+
+                <p>Whether you're ready to list or just starting your search, our team is here to guide you.</p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="home-section">
+
+        <div class="contact-container"
+            style="display: flex; flex-wrap: wrap; gap: 50px; max-width: 1100px; margin: 0 auto;">
+
+            <div class="contact-info" style="flex: 1; min-width: 300px;">
+
+                <div class="section-heading" style="text-align: left; margin-bottom: 30px;">
+
+                    <h2>Reach Out</h2>
+
+                    <p>Our office is open Monday – Friday, 9:00 AM to 6:00 PM.</p>
+
+                </div>
+
+
+                <div style="margin-bottom: 20px;">
+
+                    <strong>Phone:</strong><br>
+
+                    <a href="tel:6197526259" style="color: inherit; text-decoration: none;">(619) 752-6259</a>
+
+                </div>
+
+
+                <div style="margin-bottom: 20px;">
+
+                    <strong>Email:</strong><br>
+
+                    <a href="mailto:hello@bignickelrealty.com"
+                        style="color: inherit; text-decoration: none;">contact@bignickelrealty.com</a>
+
+                </div>
+
+
+                <div style="margin-bottom: 20px;">
+
+                    <strong>Office Address:</strong><br>
+
+                    5790 W Jefferson Blvd<br>
+
+                     Los Angeles, CA 90016
+
+                </div>
+
+            </div>
+
+
+            <div class="contact-form-wrapper"
+                style="flex: 1.5; min-width: 300px; background: #f9f9f9; padding: 40px; border-radius: 8px;">
+
+                <div id="contact-status">
+
+                    <form id="realty-contact-form">
+
+                        <div style="margin-bottom: 15px;">
+
+                            <label>Full Name</label>
+
+                            <input type="text" placeholder="John Doe"
+                                style="width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px;"
+                                required>
+
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+
+                            <label>Email Address</label>
+
+                            <input type="email" placeholder="john@example.com"
+                                style="width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px;"
+                                required>
+
+                        </div>
+
+                        <div style="margin-bottom: 15px;">
+
+                            <label>Subject</label>
+
+                            <select
+                                style="width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px;">
+
+                                <option>Buying a Home</option>
+
+                                <option>Selling a Home</option>
+
+                                <option>Investment Inquiry</option>
+
+                                <option>Other</option>
+
+                            </select>
+
+                        </div>
+
+                        <div style="margin-bottom: 20px;">
+
+                            <label>Message</label>
+
+                            <textarea placeholder="Tell us how we can help..." rows="5"
+                                style="width: 100%; padding: 12px; margin-top: 5px; border: 1px solid #ddd; border-radius: 4px;"
+                                required></textarea>
+
+                        </div>
+
+                        <button type="submit" class="hero-btn primary-btn"
+                            style="width: 100%; border: none; cursor: pointer;">Send Message</button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <footer class="footer">
+
+        <h3>BigNickel Realty</h3>
+
+        <p>Nationwide Real Estate Excellence</p>
+
+        <p>&copy; 2026 BigNickel Realty. All rights reserved.</p>
+
+    </footer>
+
+
+    <script>
+
+        document.getElementById('realty-contact-form').addEventListener('submit', function (e) {
+
+            e.preventDefault();
+
+            const statusDiv = document.getElementById('contact-status');
+
+            statusDiv.innerHTML = `
+
+<div style="text-align: center; padding: 40px;">
+
+<h3 style="color: #2c3e50; margin-bottom: 10px;">Message Received!</h3>
+
+<p>Thank you for reaching out. One of our agents will contact you shortly.</p>
+
+</div>
+
+`;
+
+        });
+
+    </script>
+
+
+</body>
+
+</html>

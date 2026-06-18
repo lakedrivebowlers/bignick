@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Property Detail</title>
+
+  <!-- Contentful SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/contentful@latest/dist/contentful.browser.min.js"></script>
+
+  <!-- Your App JS -->
+  <script defer src="app.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+  <nav>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="team.html">Team</a>
+        <a href="services.html">Services</a>
+        <a href="testimonials.html">Testimonials</a>
+        <a href="listings.html" class="active-nav">Listings</a>
+        <a href="contact.html" >Contact</a>
+    </nav>
+
+  <main id="property-detail" class="detail-container">
+    <h1 id="p-title">Loading title...</h1>
+    <p id="p-location" class="text-muted"></p>
+
+    <img id="p-main-image" class="hero-image" alt="Property Image">
+
+    <div class="property-header">
+        <h2 id="p-price" class="price-large">Loading price...</h2>
+        <div class="specs-bar">
+            <span><strong id="p-beds"></strong> Beds</span>
+            <span><strong id="p-baths"></strong> Baths</span>
+            <span><strong id="p-sqft"></strong> Sqft</span>
+            <span class="badge" id="p-type"></span>
+        </div>
+    </div>
+
+    <p id="p-address"></p>
+
+    <div class="description-box">
+        <h3>About this home</h3>
+        <div id="p-description"></div>
+    </div>
+
+    <h3>Gallery</h3>
+    <div class="gallery-grid" id="p-gallery"></div>
+  </main>
+
+  <div id="lightbox" class="lightbox" onclick="this.style.display='none'">
+    <span class="close-lightbox">&times;</span>
+    <img id="lightbox-img" src="">
+  </div>
+</body>
+</html>

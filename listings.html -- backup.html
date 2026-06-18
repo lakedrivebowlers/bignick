@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Listings | Your Real Estate</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- 1. Include the Contentful SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/contentful@latest/dist/contentful.browser.min.js"></script>
+</head>
+<body>
+
+    <nav>
+        <!-- Your navigation links go here -->
+        <a href="index.html">Home</a>
+        <a href="listings.html">Properties</a>
+    </nav>
+
+    <header>
+        <h1>Available Properties</h1>
+    </header>
+
+    <!-- 2. The empty vessel where houses will appear -->
+    <main id="property-grid" class="grid-container">
+        <!-- Loading state -->
+        <p class="loading">Fetching the latest homes...</p>
+    </main>
+
+    <!-- 3. Your custom logic -->
+    <script src="app.js"></script>
+</body>
+</html>

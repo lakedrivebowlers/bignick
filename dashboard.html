@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Executive Portfolio Console | Big Nick Realty</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Modern Premium Corporate Stylesheet Reset */
+        body { background-color: #f1f5f9; font-family: 'Inter', system-ui, sans-serif; margin: 0; color: #1e293b; -webkit-font-smoothing: antialiased; }
+        .hidden { display: none !important; }
+        
+        /* Auth Screen */
+        .auth-box { max-width: 400px; margin: 120px auto; padding: 40px; border-radius: 16px; background: #ffffff; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.1); border: 1px solid #e2e8f0; border-top: 6px solid #0f172a; }
+        .auth-box h2 { margin-top: 0; color: #0f172a; font-weight: 800; letter-spacing: -0.5px;}
+        .auth-box label { font-size: 13px; font-weight: 600; color: #64748b; display: block; margin-top: 15px;}
+        .auth-box input { width: 100%; padding: 14px; margin: 8px 0 24px 0; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; background: #f8fafc; font-size: 14px; transition: 0.2s; }
+        .auth-box input:focus { border-color: #3b82f6; outline: none; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1); }
+        .auth-box button { width: 100%; padding: 14px; background: #0f172a; color: #fff; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 15px; transition: 0.2s; }
+        .auth-box button:hover { background: #1e293b; transform: translateY(-1px); }
+
+        /* Top Enterprise Navigation Bar */
+        .top-navbar { background-color: #0f172a; color: #ffffff; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 700; letter-spacing: 0.5px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .nav-brand { display: flex; align-items: center; gap: 8px; font-size: 15px; text-transform: uppercase; }
+
+        .dashboard-container { padding: 30px 40px; max-width: 1600px; margin: 0 auto; padding-bottom: 100px; }
+        
+        /* Restricted Banner */
+        .warning-banner { background: #fffbeb; border-left: 6px solid #f59e0b; color: #92400e; padding: 18px 24px; margin-bottom: 30px; border-radius: 8px; font-weight: 500; font-size: 15px; box-shadow: 0 4px 6px -1px rgba(245, 158, 11, 0.05); line-height: 1.5; }
+
+        /* Welcome Row & Action Buttons */
+        .welcome-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 2px solid #e2e8f0; padding-bottom: 20px; }
+        .welcome-row h1 { margin: 0; font-size: 28px; color: #0f172a; font-weight: 800; letter-spacing: -0.5px; }
+        .header-actions { display: flex; gap: 12px; align-items: center; }
+        .btn-ai-action { background: #8b5cf6; color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 700; cursor: pointer; transition: 0.2s; font-size: 14px; }
+        .btn-ai-action:hover { background: #7c3aed; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3); }
+        .welcome-row .btn-logout { background: #e2e8f0; color: #475569; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 700; cursor: pointer; transition: 0.2s; font-size: 14px; }
+        .welcome-row .btn-logout:hover { background: #cbd5e1; color: #0f172a; }
+        
+        /* Header Stats */
+        .dash-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 30px; background: #ffffff; padding: 30px 40px; border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.02); border: 1px solid #e2e8f0; }
+        .hero-metric h2 { font-size: 15px; color: #64748b; text-transform: uppercase; margin: 0 0 8px 0; letter-spacing: 1px; font-weight: 600;}
+        .hero-metric .big-number { font-size: 48px; font-weight: 800; background: linear-gradient(135deg, #0f172a 0%, #334155 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -2px; }
+        .hero-metric .trend { font-size: 18px; color: #10b981; font-weight: 700; margin-left: 12px; padding: 4px 10px; background: #dcfce7; border-radius: 20px; -webkit-text-fill-color: #10b981; vertical-align: middle; }
+        
+        .user-meta { text-align: right; }
+        .user-meta strong { color: #0f172a; font-weight: 800; font-size: 18px; display: block; margin-bottom: 4px;}
+        .access-badge { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; margin-top: 8px; }
+
+        /* Metric Cards */
+        .metrics-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-bottom: 30px; }
+        .metric-card { background: #fff; padding: 24px; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); position: relative; overflow: hidden; transition: 0.2s; }
+        .metric-card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05); }
+        .metric-card::before { content: ''; position: absolute; top: 0; left: 0; width: 6px; height: 100%; background: #3b82f6; }
+        .metric-card.success::before { background: #10b981; }
+        .metric-card.warning::before { background: #f59e0b; }
+        .metric-card.purple::before { background: #8b5cf6; }
+        .metric-card h4 { margin: 0 0 12px 0; font-size: 13px; color: #64748b; text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px;}
+        .metric-card .value { font-size: 32px; font-weight: 800; color: #0f172a; letter-spacing: -1px;}
+
+        /* Grid Layout */
+        .grid-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; margin-bottom: 30px; }
+        .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .chart-container { position: relative; height: 250px; width: 100%; }
+        
+        /* Panels */
+        .panel { background: #ffffff; padding: 30px; border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.02); margin-bottom: 30px; border: 1px solid #e2e8f0; }
+        .panel h3 { margin-top: 0; font-size: 18px; color: #0f172a; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px; font-weight: 700; letter-spacing: -0.5px; }
+        
+        /* Market Intel List */
+        .intel-list { list-style: none; padding: 0; margin: 0; }
+        .intel-list li { padding: 12px 0; border-bottom: 1px solid #f1f5f9; display: flex; align-items: flex-start; gap: 12px; }
+        .intel-list li:last-child { border-bottom: none; }
+        .intel-list .intel-icon { font-size: 20px; }
+        .intel-list .intel-text { font-size: 14px; color: #334155; line-height: 1.5; }
+        .intel-list strong { color: #0f172a; }
+
+        /* Forms & Inputs */
+        .form-note { font-size: 12px; color: #64748b; margin-top: -5px; margin-bottom: 15px; font-style: italic; }
+        .lead-form label { display: block; margin-top: 18px; font-size: 13px; color: #475569; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;}
+        .lead-form input, .lead-form select, .lead-form textarea { width: 100%; padding: 14px; margin-top: 8px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; background: #f8fafc; font-family: inherit; font-size: 14px; transition: 0.2s; }
+        .lead-form input:focus, .lead-form select:focus, .lead-form textarea:focus { border-color: #0f172a; outline: none; }
+        
+        .btn-submit { margin-top: 24px; background: #0f172a; color: white; border: none; padding: 14px; border-radius: 8px; cursor: pointer; width: 100%; font-weight: 600; font-size: 15px; transition: 0.2s; }
+        .btn-submit:hover { background: #1e293b; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .btn-approve { background: #10b981; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 700; text-transform: uppercase;}
+        
+        /* Tables & Pagination */
+        .data-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 10px; font-size: 14px; table-layout: fixed; }
+        .data-table th { background: #f8fafc; color: #475569; font-weight: 600; text-transform: uppercase; font-size: 12px; padding: 16px; text-align: left; letter-spacing: 0.5px; border-bottom: 2px solid #e2e8f0; }
+        .data-table td { border-bottom: 1px solid #f1f5f9; padding: 16px; color: #334155; vertical-align: middle; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        
+        .pagination { display: flex; justify-content: center; gap: 8px; margin-top: 25px; }
+        .pagination button { padding: 8px 14px; border: 1px solid #e2e8f0; background: #fff; border-radius: 6px; cursor: pointer; color: #475569; font-size: 13px; font-weight: 600; transition: 0.2s; }
+        .pagination button:hover { background: #f1f5f9; }
+        .pagination button.active { background: #0f172a; color: #fff; border-color: #0f172a; }
+
+        /* Tags */
+        .status-tag { padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; display: inline-block; text-align: center; text-transform: uppercase; letter-spacing: 0.5px;}
+        .status-pending { background: #fef3c7; color: #b45309; }
+        .status-in-review { background: #e0e7ff; color: #3730a3; }
+        .status-escalated { background: #fee2e2; color: #991b1b; }
+        .status-closed { background: #e2e8f0; color: #475569; }
+
+        /* Interactive Dynamic Chatbot Styling */
+        .chat-container-box { display: flex; flex-direction: column; height: 320px; background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; }
+        .chat-log { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; background: #f8fafc; }
+        .msg { display: flex; gap: 10px; align-items: flex-start; max-width: 85%; }
+        .msg.user { align-self: flex-end; flex-direction: row-reverse; }
+        .msg.bot { align-self: flex-start; }
+        .avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0; }
+        .msg.user .avatar { background: #3b82f6; }
+        .msg.bot .avatar { background: #0f172a; }
+        .bubble { padding: 10px 14px; border-radius: 12px; font-size: 13px; line-height: 1.4; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .msg.user .bubble { background: #3b82f6; color: #fff; border-top-right-radius: 2px; }
+        .msg.bot .bubble { background: #fff; color: #1e293b; border: 1px solid #e2e8f0; border-top-left-radius: 2px; }
+        .chat-input-wrapper { display: flex; padding: 12px; background: #fff; border-top: 1px solid #e2e8f0; gap: 8px; }
+        .chat-input-wrapper input { flex: 1; padding: 12px 14px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; font-family: inherit; }
+        .chat-input-wrapper input:focus { border-color: #0f172a; outline: none; }
+        .btn-chat-send { background: #0f172a; color: #fff; border: none; padding: 0 18px; border-radius: 6px; font-weight: 600; font-size: 13px; cursor: pointer; transition: 0.2s; }
+        .btn-chat-send:hover { background: #1e293b; }
+        .note-muted { font-size: 11px; color: #94a3b8; padding: 0 12px 12px 12px; background: #fff; text-align: center; font-style: italic; }
+    </style>
+</head>
+<body>
+
+    <div id="login-screen" class="auth-box">
+        <h2>Portfolio Access Portal</h2>
+        <div id="login-error" style="color: #ef4444; margin-bottom: 15px; font-size: 13px; font-weight: 500;"></div>
+        <label>User ID</label>
+        <input type="text" id="username" placeholder="e.g. admin">
+        <label>Secure Passcode</label>
+        <input type="password" id="password" placeholder="••••••••">
+        <button id="login-btn">Authenticate</button>
+    </div>
+
+    <div id="dashboard-wrapper" class="hidden">
+        
+        <div class="top-navbar">
+            <div class="nav-brand">Big Nick Realty - Account OPs</div>
+        </div>
+
+        <div id="dashboard-screen" class="dashboard-container">
+            
+            <div class="warning-banner admin-only hidden" style="display: none;"></div>
+            <div class="warning-banner" id="agent-warning">
+                <strong>RESTRICTED VIEW:</strong> You are signed in as Personal Assistant to "Eric Gallardo" (Portfolio Manager — North America). Your access is LIMITED to basic tools and read-only summaries.
+            </div>
+
+            <div class="welcome-row">
+                <h1>Welcome <span id="welcome-name">User</span></h1>
+                <div class="header-actions">
+                    <button class="btn-ai-action" id="analyse-ai-btn">Analyse Data with AI</button>
+                    <button class="btn-logout" id="logout-btn">Secure Sign Out</button>
+                </div>
+            </div>
+
+            <div class="dash-header">
+                <div class="hero-metric">
+                    <h2>Overall Lifetime Value (<span id="ltv-name">Eric Gallardo</span>)</h2>
+                    <div class="big-number">$66.3M <span class="trend">▲ 8.4% YTD</span></div>
+                </div>
+                <div class="user-meta">
+                    <strong id="display-name">User Name</strong>
+                    <span id="display-role">Role</span><br>
+                    <span id="display-access" class="access-badge">Access Level</span>
+                </div>
+            </div>
+
+            <div class="metrics-row">
+                <div class="metric-card success">
+                    <h4>Revenue Generated (YTD)</h4>
+                    <div class="value">$14.2M</div>
+                </div>
+                <div class="metric-card purple">
+                    <h4>Deals Finalized (YTD)</h4>
+                    <div class="value">24</div>
+                </div>
+                <div class="metric-card warning">
+                    <h4>Active Negotiations</h4>
+                    <div class="value">7</div>
+                </div>
+                <div class="metric-card">
+                    <h4>Avg Deal Size</h4>
+                    <div class="value">$1.8M</div>
+                </div>
+            </div>
+
+            <div class="grid-layout">
+                
+                <div>
+                    <div class="panel">
+                        <h3>Market Intelligence</h3>
+                        <ul class="intel-list">
+                            <li><span class="intel-icon">📈</span> <div class="intel-text"><strong>Industrial Sector Surge:</strong> Logistics properties in the Moreno Valley corridor are seeing a 12% markup above asking.</div></li>
+                            <li><span class="intel-icon">⚠️</span> <div class="intel-text"><strong>Zoning Update:</strong> Santa Ana city council is reviewing new restrictions on Class A mixed-use developments next week.</div></li>
+                            <li><span class="intel-icon">🏢</span> <div class="intel-text"><strong>Competitor Move:</strong> Tritex Corporation reportedly scouting 50k sq ft footprints near major transport hubs.</div></li>
+                        </ul>
+                    </div>
+
+                    <div class="panel">
+                        <h3>Portfolio Analytics</h3>
+                        <div class="chart-grid">
+                            <div class="chart-container"><canvas id="salesChart"></canvas></div>
+                            <div class="chart-container"><canvas id="conversionChart"></canvas></div>
+                            <div class="chart-container"><canvas id="pieChart"></canvas></div>
+                            <div class="chart-container"><canvas id="barChart"></canvas></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="panel">
+                        <h3>Update Client Activity</h3>
+                        <p class="form-note">Entries may take some time to show up on Client Activity Log</p>
+                        <div class="lead-form">
+                            <label>Client Name</label>
+                            <input type="text" id="lead-name" placeholder="E.g., The Harrison Trust">
+                            
+                            <label>Property ZPID</label>
+                            <input type="text" id="lead-zpid" placeholder="19272887">
+                            
+                            <label>Current Status</label>
+                            <select id="lead-status">
+                                <option value="pending">Pending</option>
+                                <option value="in review">In Review</option>
+                                <option value="escalated">Escalated</option>
+                                <option value="closed">Closed</option>
+                            </select>
+                            
+                            <label>Deal Notes / Showing Feedback</label>
+                            <textarea id="lead-notes" rows="4" placeholder="Client toured property today. Will submit LOI by Friday..."></textarea>
+                            
+                            <button class="btn-submit" id="submit-lead-btn">Submit</button>
+                            <div id="form-success" class="hidden" style="color: #10b981; font-size: 13px; text-align: center; margin-top: 15px; font-weight: bold;">✔ Entry Received. It will be validated by the System before updating.</div>
+                        </div>
+                    </div>
+
+                    <div class="panel" style="padding: 20px 20px 0 20px;">
+                        <h3 style="border-bottom:none; margin-bottom:12px; padding-bottom:0;">Internal Q&A — Automated Assistant</h3>
+                        <div class="chat-container-box">
+                            <div id="chatLog" class="chat-log">
+                                <div class="msg bot">
+                                    <div class="avatar">AI</div>
+                                    <div class="bubble">Hi! Ask me about property specs, zoning configurations, transaction timelines, or portfolio metrics.</div>
+                                </div>
+                            </div>
+                            <div class="chat-input-wrapper">
+                                <input id="chatInput" placeholder="e.g., What is the target cap rate for the Moreno Valley facility?" />
+                                <button class="btn-chat-send" id="chatSend">Ask</button>
+                            </div>
+                            <div class="note-muted">This bot is connected to internal analytics systems</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel admin-only hidden" style="border-left: 6px solid #f59e0b;">
+                <h3>Verification Inbox (Requires Approval)</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 15%;">Author</th>
+                            <th style="width: 25%;">Client Name</th>
+                            <th style="width: 15%;">Status</th>
+                            <th style="width: 30%;">Notes / Feedback</th>
+                            <th style="width: 15%;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pending-rows"></tbody>
+                </table>
+            </div>
+
+            <div class="panel">
+                <h3>Client Activity Log</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 30%;">Client Name</th>
+                            <th style="width: 20%;">Status</th>
+                            <th style="width: 50%;">Notes / Feedback</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leads-rows"></tbody>
+                </table>
+                <div class="pagination">
+                    <button>&laquo; Prev</button>
+                    <button class="active">1</button>
+                    <button>2</button>
+                    <button>3</button>
+                    <button>Next &raquo;</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="dashboard.js"></script>
+</body>
+</html>
